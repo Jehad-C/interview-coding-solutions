@@ -72,12 +72,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public boolean deleteUserById(Long id) {
+    public boolean deleteUserById(Long id) throws ServiceException {
         try {
             userRepository.deleteById(id);
             return true;
         } catch (IllegalArgumentException e) {
-            return false;
+            throw new ServiceException("IllegalArgumentException");
         }
     }
 

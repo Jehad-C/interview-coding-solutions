@@ -54,7 +54,7 @@ public class UserController {
     public ResponseEntity<Boolean> updateUser(@RequestBody UserDTO userDTO) {
         try {
             boolean result = userService.updateUser(userDTO);
-            HttpStatus httpStatus = result ? HttpStatus.CREATED : HttpStatus.BAD_REQUEST;
+            HttpStatus httpStatus = result ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
             return ResponseEntity.status(httpStatus).body(true);
         } catch (ServiceException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(false);
@@ -63,10 +63,11 @@ public class UserController {
 
     @DeleteMapping("/user")
     public ResponseEntity<Boolean> deleteUserById(@RequestParam(name = "id")Long id) {
-        boolean result = userService.deleteUserById(id);
-        if (result) {
-            return ResponseEntity.status(HttpStatus.CREATED).body(true);
-        } else {
+        try {
+            boolean result = userService.deleteUserById(id);
+            HttpStatus httpStatus = result ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
+            return ResponseEntity.status(httpStatus).body(true);
+        } catch (ServiceException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(false);
         }
     }

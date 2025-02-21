@@ -11,5 +11,5 @@ public interface UserService {
     User getUserById(Long id);
     List<User> getUsers();
     boolean updateUser(UserDTO userDTO) throws ServiceException;
-    boolean deleteUserById(Long id);
+    boolean deleteUserById(Long id) throws ServiceException;
 }
