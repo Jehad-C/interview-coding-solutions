@@ -36,12 +36,40 @@ public class UserController {
     }
 
     @GetMapping("/user")
-    public ResponseEntity<User> getUserById(@RequestParam(name = "id")Long id) {
-        User existingUser = userService.getUserById(id);
-        if (existingUser == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+    public ResponseEntity<?> getUser(
+            @RequestParam(name = "id", required = false)Long id,
+            @RequestParam(name = "email", required = false)String email,
+            @RequestParam(name = "name", required = false)String name,
+            @RequestParam(name = "page", defaultValue = "0")Integer page,
+            @RequestParam(name = "size", defaultValue = "10")Integer size
+    ) {
+        if (id == null && email == null && name == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+
+        if (id != null) {
+            User existingUser = userService.getUserById(id);
+            if (existingUser == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            } else {
+                return ResponseEntity.ok(existingUser);
+            }
+        }
+
+        if (email != null) {
+            User existingUser = userService.getUserByEmail(email);
+            if (existingUser == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            } else {
+                return ResponseEntity.ok(existingUser);
+            }
+        }
+
+        List<User> existingUsers = userService.getUsersByName(name, page, size);
+        if (existingUsers.size() == 0) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         } else {
-            return ResponseEntity.ok(existingUser);
+            return ResponseEntity.ok(existingUsers);
         }
     }
 

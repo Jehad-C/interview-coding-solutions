@@ -9,6 +9,8 @@ import java.util.List;
 public interface UserService {
     boolean createUser(UserDTO userDTO) throws ServiceException;
     User getUserById(Long id);
+    User getUserByEmail(String email);
+    List<User> getUsersByName(String name, Integer page, Integer size);
     List<User> getUsers();
     boolean updateUser(UserDTO userDTO) throws ServiceException;
     boolean deleteUserById(Long id) throws ServiceException;

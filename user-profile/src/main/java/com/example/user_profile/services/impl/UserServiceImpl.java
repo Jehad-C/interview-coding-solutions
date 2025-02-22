@@ -11,6 +11,9 @@ import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.OptimisticLockingFailureException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -44,6 +47,20 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUserById(Long id) {
         return userRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public User getUserByEmail(String email) {
+        return userRepository.findByEmail(email).orElse(null);
+    }
+
+    @Override
+    public List<User> getUsersByName(String name, Integer page, Integer size) {
+        if (page < 0) page = 0;
+        if (size < 0) size = 10;
+        Pageable pageable = PageRequest.of(page, size);
+        Page<User> userPage = userRepository.findByName(name, pageable);
+        return userPage.getContent();
     }
 
     @Override
