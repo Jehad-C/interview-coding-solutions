@@ -1,6 +1,5 @@
-package com.example.user_profile.controller;
+package com.example.user_profile.controllers;
 
-import com.example.user_profile.controllers.UserController;
 import com.example.user_profile.dtos.UserDTO;
 import com.example.user_profile.entities.User;
 import com.example.user_profile.services.UserService;
