@@ -26,7 +26,7 @@ public class User {
     @NotNull
     private String name;
 
-    @Column(name = "email")
+    @Column(name = "email", unique = true)
     @NotNull
     private String email;
 
