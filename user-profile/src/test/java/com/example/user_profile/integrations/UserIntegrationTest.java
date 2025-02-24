@@ -2,6 +2,7 @@ package com.example.user_profile.integrations;
 
 import com.example.user_profile.UserProfileApplication;
 import com.example.user_profile.dtos.UserDTO;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -12,7 +13,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.time.LocalDate;
@@ -25,8 +26,15 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
         classes = UserProfileApplication.class,
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
 )
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class UserIntegrationTest {
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+
+    @BeforeEach
+    public void clearDatabase() {
+        jdbcTemplate.execute("DELETE FROM user");
+    }
+
     @Autowired
     private TestRestTemplate testRestTemplate;
 

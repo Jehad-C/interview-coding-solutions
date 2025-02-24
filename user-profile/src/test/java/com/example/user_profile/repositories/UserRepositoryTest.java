@@ -1,6 +1,7 @@
 package com.example.user_profile.repositories;
 
 import com.example.user_profile.entities.User;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -22,6 +23,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class UserRepositoryTest {
     @Autowired
     private UserRepository userRepository;
+
+    @BeforeEach
+    public void clearDatabase() {
+        userRepository.deleteAll();
+    }
 
     private User createUser(Long userId) {
         User user = new User();
